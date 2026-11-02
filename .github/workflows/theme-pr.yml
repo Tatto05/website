@@ -101,7 +101,15 @@ jobs:
             );
 
             if (!problems.length) {
-              if (previous) await github.rest.issues.deleteComment({ owner, repo, comment_id: previous.id });
+              if (!previous) return;
+              // The note only exists while this check holds the pull request as a draft, so a contributor's own draft is left alone.
+              if (pr.draft) {
+                await github.graphql(
+                  'mutation($id: ID!) { markPullRequestReadyForReview(input: { pullRequestId: $id }) { clientMutationId } }',
+                  { id: pr.node_id }
+                );
+              }
+              await github.rest.issues.deleteComment({ owner, repo, comment_id: previous.id });
               return;
             }
             if (pr.draft) {
@@ -119,7 +127,7 @@ jobs:
               '',
               ...problems.map((problem) => `- ${problem}`),
               '',
-              'Fix these, then mark it ready for review again.'
+              'Fix these and the check marks it ready for review again.'
             ].join('\n');
             if (previous) {
               await github.rest.issues.updateComment({ owner, repo, comment_id: previous.id, body: text });

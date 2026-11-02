@@ -2,8 +2,9 @@
 <!-- Keep the line above if this pull request adds or updates a community theme.
 
      A check reads this description. If a ready pull request leaves a required box unchecked,
-     the check turns it back into a draft and leaves a comment saying what is missing. Draft
-     pull requests may leave boxes unchecked.
+     the check turns it back into a draft and leaves a comment saying what is missing. Once
+     the problems are fixed, the check marks it ready again. Draft pull requests may leave
+     boxes unchecked.
 
      Not a theme? Delete everything here and describe your change instead. -->
 
